@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cinox Admin Panel</title>
+  <link rel="stylesheet" href="./css/admin.css">
+</head>
+<body>
+  <div class="admin-shell">
+    <aside class="admin-sidebar">
+      <div class="sidebar-brand">
+        <div class="brand-mark">C</div>
+        <div>
+          <strong>Cinox Admin</strong>
+          <span>Operations Panel</span>
+        </div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <button class="sidebar-link is-active" type="button" data-section-target="dashboard">Dashboard</button>
+        <button class="sidebar-link" type="button" data-section-target="users">Nhân sự</button>
+        <button class="sidebar-link" type="button" data-section-target="reports">Báo cáo</button>
+        <button class="sidebar-link" type="button" data-section-target="menu">Thực đơn</button>
+      </nav>
+
+      <div class="sidebar-footer">
+        <button class="outline-button" id="openPosButton" type="button">Mở màn hình POS</button>
+        <button class="outline-button" id="openKdsButton" type="button">Mở màn hình Bếp</button>
+        <button class="outline-button" id="logoutButton" type="button">Đăng xuất</button>
+      </div>
+    </aside>
+
+    <main class="admin-main">
+      <header class="admin-topbar">
+        <div>
+          <p class="eyebrow">Administrator Control</p>
+          <h1>Admin Panel</h1>
+        </div>
+
+        <div class="admin-chip">
+          <div class="admin-avatar" id="adminAvatar">AD</div>
+          <div>
+            <strong id="adminName">Quản trị viên</strong>
+            <span id="adminRole">ADMIN</span>
+          </div>
+        </div>
+      </header>
+
+      <section class="panel-section is-active" id="dashboardSection">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">Dashboard & Analytics</p>
+            <h2>Bảng điều khiển tổng quan</h2>
+          </div>
+          <div class="date-chip" id="todayChip"></div>
+        </div>
+
+        <div class="stats-grid">
+          <article class="stat-card">
+            <span>Tổng doanh thu hôm nay</span>
+            <strong id="dailyRevenueValue">0đ</strong>
+          </article>
+          <article class="stat-card">
+            <span>Đơn hoàn thành</span>
+            <strong id="completedOrdersValue">0</strong>
+          </article>
+          <article class="stat-card">
+            <span>Đơn bị hủy</span>
+            <strong id="cancelledOrdersValue">0</strong>
+          </article>
+        </div>
+
+        <div class="analytics-grid">
+          <article class="panel-card">
+            <div class="card-head">
+              <h3>Hiệu suất theo ca</h3>
+              <span>Doanh thu trong ngày</span>
+            </div>
+            <div class="bar-chart" id="shiftChart"></div>
+          </article>
+
+          <article class="panel-card">
+            <div class="card-head">
+              <h3>Phân bổ trạng thái đơn</h3>
+              <span>Tỷ lệ hoàn thành / hủy</span>
+            </div>
+            <div class="donut-wrap">
+              <div class="donut-chart" id="statusDonut"></div>
+              <div class="donut-legend">
+                <div><span class="legend-dot success"></span>Hoàn thành</div>
+                <div><span class="legend-dot danger"></span>Bị hủy</div>
+              </div>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="panel-section" id="usersSection">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">User Management</p>
+            <h2>Quản lý nhân sự</h2>
+          </div>
+        </div>
+
+        <div class="split-grid">
+          <article class="panel-card">
+            <div class="card-head">
+              <h3>Tạo tài khoản nhân viên</h3>
+              <span>Hệ thống tự generate employee_code</span>
+            </div>
+
+            <form id="createUserForm" class="stack-form">
+              <label>
+                <span>Họ tên</span>
+                <input id="newUserName" type="text" placeholder="Ví dụ: Nguyễn Minh An" required>
+              </label>
+              <label>
+                <span>Vai trò</span>
+                <select id="newUserRole">
+                  <option value="Cashier">Cashier</option>
+                  <option value="Supervisor">Supervisor</option>
+                </select>
+              </label>
+              <button class="primary-button" type="submit">Tạo tài khoản</button>
+              <p class="inline-feedback" id="userFormFeedback"></p>
+            </form>
+          </article>
+
+          <article class="panel-card">
+            <div class="card-head">
+              <h3>Danh sách nhân viên</h3>
+              <span>Reset mật khẩu khi nhân viên quên</span>
+            </div>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Mã NV</th>
+                    <th>Họ tên</th>
+                    <th>Vai trò</th>
+                    <th>Mật khẩu tạm</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody id="usersTableBody"></tbody>
+              </table>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="panel-section" id="reportsSection">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">Revenue Reports</p>
+            <h2>Báo cáo doanh thu chi tiết</h2>
+          </div>
+        </div>
+
+        <div class="filter-row">
+          <label>
+            <span>Chọn ngày</span>
+            <input id="reportDateFilter" type="date">
+          </label>
+          <label>
+            <span>Mã nhân viên</span>
+            <select id="reportEmployeeFilter"></select>
+          </label>
+          <button class="outline-button" id="resetReportFilters" type="button">Xóa bộ lọc</button>
+        </div>
+
+        <div class="stats-grid compact">
+          <article class="stat-card">
+            <span>Doanh thu lọc</span>
+            <strong id="filteredRevenueValue">0đ</strong>
+          </article>
+          <article class="stat-card">
+            <span>Số đơn khớp</span>
+            <strong id="filteredOrdersValue">0</strong>
+          </article>
+          <article class="stat-card">
+            <span>Nhân viên đối soát</span>
+            <strong id="filteredEmployeeValue">Tất cả</strong>
+          </article>
+        </div>
+
+        <article class="panel-card">
+          <div class="card-head">
+            <h3>Bảng báo cáo cuối ngày</h3>
+            <span>Lọc chéo theo ngày và employee_code</span>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Mã đơn</th>
+                  <th>Ngày</th>
+                  <th>Mã NV</th>
+                  <th>Nhân viên</th>
+                  <th>Trạng thái</th>
+                  <th>Doanh thu</th>
+                </tr>
+              </thead>
+              <tbody id="reportsTableBody"></tbody>
+            </table>
+          </div>
+        </article>
+      </section>
+
+      <section class="panel-section" id="menuSection">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">Menu Management</p>
+            <h2>Quản lý thực đơn</h2>
+          </div>
+        </div>
+
+        <div class="split-grid">
+          <article class="panel-card">
+            <div class="card-head">
+              <h3>Thêm / cập nhật món</h3>
+              <span>Tạo combo, sửa giá bán, cập nhật trạng thái món</span>
+            </div>
+
+            <form id="menuAdminForm" class="stack-form">
+              <input id="menuEditId" type="hidden">
+              <label>
+                <span>Tên món</span>
+                <input id="menuAdminName" type="text" required>
+              </label>
+              <label>
+                <span>Danh mục</span>
+                <select id="menuAdminCategory"></select>
+              </label>
+              <label>
+                <span>Link ảnh</span>
+                <input id="menuAdminImageUrl" type="text" placeholder="https://...">
+              </label>
+              <label>
+                <span>Giá bán</span>
+                <input id="menuAdminPrice" type="number" min="1000" step="1000" required>
+              </label>
+              <div class="form-actions">
+                <button class="outline-button" id="clearMenuForm" type="button">Hủy chỉnh sửa</button>
+                <button class="primary-button" type="submit">Lưu thực đơn</button>
+              </div>
+              <p class="inline-feedback" id="menuFormFeedback"></p>
+            </form>
+          </article>
+
+          <article class="panel-card">
+            <div class="card-head">
+              <h3>Danh mục hiện hành</h3>
+              <span>Ẩn món nếu hết nguyên liệu để POS không hiển thị</span>
+            </div>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Tên món</th>
+                    <th>Danh mục</th>
+                    <th>Giá</th>
+                    <th>Trạng thái</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody id="menuTableBody"></tbody>
+              </table>
+            </div>
+          </article>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="./js/api.js"></script>
+  <script src="./js/admin.js"></script>
+</body>
+</html>

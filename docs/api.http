@@ -1,0 +1,14 @@
+### 1. Đăng nhập để lấy Token (Thẻ nhân viên)
+POST http://localhost:3000/api/auth/login
+Content-Type: application/json
+
+{
+    "employee_code": "NV001",
+    "password": "123456"
+}
+
+### -----------------------------------------------
+
+### 2. Lấy danh sách món ăn (Nhớ thay Token vào chữ DÁN_TOKEN_CỦA_BẠN_VÀO_ĐÂY)
+GET http://localhost:3000/api/products
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjlkMmUwYmFmLWY2YTAtNDVlNy1hZGRkLWQ3YzA4OTA4YmI5ZSIsImVtcGxveWVlX2NvZGUiOiJOVjAwMSIsImZ1bGxfbmFtZSI6Ik5ndXnDqm4gSG_DoG5nIFRydW5nIEhp4bq_dSIsInJvbGUiOiJDQVNISUVSIiwiaWF0IjoxNzc4NDI2NDMzLCJleHAiOjE3Nzg0NTUyMzN9.RB29u5qxsXkOztFo1dJcPmqFgJlewdPIKUnD4TpTzFo

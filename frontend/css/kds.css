@@ -1,0 +1,201 @@
+:root {
+  --bg-main: #15110f;
+  --bg-surface: #231b18;
+  --bg-card: #2b201c;
+  --bg-accent: #d58b17;
+  --border: rgba(255, 236, 214, 0.14);
+  --text-main: #fff7f0;
+  --text-muted: rgba(255, 247, 240, 0.72);
+  --success: #2ca86c;
+  --warning: #e6a324;
+  --danger: #d45740;
+  --font-display: "Bahnschrift", "Trebuchet MS", sans-serif;
+  --font-body: "Segoe UI", "Tahoma", sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  min-height: 100%;
+}
+
+body {
+  background:
+    radial-gradient(circle at top right, rgba(213, 139, 23, 0.18), transparent 22%),
+    linear-gradient(180deg, #171210 0%, #120e0d 100%);
+  color: var(--text-main);
+  font-family: var(--font-body);
+}
+
+button {
+  font: inherit;
+}
+
+.kds-shell {
+  min-height: 100vh;
+  padding: 1.2rem;
+}
+
+.kds-topbar,
+.topbar-meta,
+.kds-summary {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.kds-topbar {
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.eyebrow {
+  margin: 0 0 0.3rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  font-size: 0.76rem;
+}
+
+.kds-topbar h1 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 2rem;
+}
+
+.status-chip,
+.nav-button {
+  padding: 0.85rem 1rem;
+  border-radius: 16px;
+  border: 1px solid var(--border);
+}
+
+.status-chip {
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.nav-button {
+  background: rgba(213, 139, 23, 0.18);
+  color: var(--text-main);
+  cursor: pointer;
+}
+
+.kds-summary {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin-bottom: 1rem;
+}
+
+.summary-card,
+.order-card {
+  border-radius: 24px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+}
+
+.summary-card {
+  padding: 1rem 1.1rem;
+}
+
+.summary-card span {
+  display: block;
+  color: var(--text-muted);
+}
+
+.summary-card strong {
+  display: block;
+  margin-top: 0.55rem;
+  font-family: var(--font-display);
+  font-size: 2rem;
+}
+
+.kds-board {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
+  gap: 1rem;
+}
+
+.order-card {
+  padding: 1rem;
+}
+
+.order-head,
+.order-meta,
+.order-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.order-head {
+  margin-bottom: 0.9rem;
+}
+
+.order-id {
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+}
+
+.order-badge {
+  display: inline-block;
+  padding: 0.4rem 0.7rem;
+  border-radius: 999px;
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+.order-badge.pending {
+  background: rgba(228, 163, 36, 0.18);
+  color: var(--warning);
+}
+
+.order-badge.preparing {
+  background: rgba(44, 168, 108, 0.18);
+  color: var(--success);
+}
+
+.order-badge.ready {
+  background: rgba(213, 87, 64, 0.18);
+  color: #ffb6a6;
+}
+
+.order-meta {
+  color: var(--text-muted);
+  margin-bottom: 0.85rem;
+}
+
+.order-items {
+  display: grid;
+  gap: 0.55rem;
+  margin-bottom: 1rem;
+}
+
+.order-item-line {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.7rem 0.8rem;
+  border-radius: 16px;
+  background: var(--bg-card);
+}
+
+.order-footer {
+  color: var(--text-muted);
+}
+
+@media (max-width: 860px) {
+  .kds-topbar,
+  .topbar-meta {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .kds-summary {
+    grid-template-columns: 1fr;
+  }
+}

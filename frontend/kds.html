@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cinox KDS</title>
+  <link rel="stylesheet" href="./css/kds.css">
+</head>
+<body>
+  <div class="kds-shell">
+    <header class="kds-topbar">
+      <div>
+        <p class="eyebrow">Kitchen Display System</p>
+        <h1>Man hinh bep</h1>
+      </div>
+
+      <div class="topbar-meta">
+        <div class="status-chip" id="kdsClock">--:--:--</div>
+        <button class="nav-button" id="backToAdminButton" type="button">Ve Dashboard</button>
+      </div>
+    </header>
+
+    <section class="kds-summary">
+      <article class="summary-card">
+        <span>Dang cho lam</span>
+        <strong id="pendingOrdersCount">0</strong>
+      </article>
+      <article class="summary-card">
+        <span>Dang thuc hien</span>
+        <strong id="preparingOrdersCount">0</strong>
+      </article>
+      <article class="summary-card">
+        <span>Sap xong</span>
+        <strong id="readyOrdersCount">0</strong>
+      </article>
+    </section>
+
+    <main class="kds-board" id="kdsBoard"></main>
+  </div>
+
+  <script src="./js/api.js"></script>
+  <script src="./js/kds.js"></script>
+</body>
+</html>

@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cinox POS Dashboard</title>
+  <link rel="stylesheet" href="./css/pos.css">
+</head>
+<body>
+  <div class="pos-app">
+    <header class="topbar">
+      <div class="brand-lockup">
+        <div class="brand-mark">C</div>
+        <div class="brand-copy">
+          <strong>Cinox POS</strong>
+          <span>Ticket Counter</span>
+        </div>
+      </div>
+
+      <nav class="topnav">
+        <button class="nav-pill is-active" type="button">Bán vé</button>
+        <button class="nav-pill" type="button">Đơn hàng</button>
+        <button class="nav-pill" type="button">Báo cáo</button>
+      </nav>
+
+      <div class="topbar-tools">
+        <label class="searchbox">
+          <span class="icon">⌕</span>
+          <input id="searchInput" type="search" placeholder="Tìm suất chiếu, combo, đồ ăn...">
+        </label>
+
+        <button class="icon-button" type="button" aria-label="Thông báo">◌</button>
+        <button class="icon-button" type="button" aria-label="Thiết lập">⌘</button>
+
+        <div class="staff-chip">
+          <div class="staff-avatar" id="staffAvatar">NV</div>
+          <div class="staff-meta">
+            <strong id="staffName">Nhân viên</strong>
+            <span id="staffRole">Thu ngân</span>
+          </div>
+          <button class="dashboard-button" id="dashboardButton" type="button" hidden>Dashboard</button>
+          <button class="logout-button" id="logoutButton" type="button">Thoát</button>
+        </div>
+      </div>
+    </header>
+
+    <main class="workspace">
+      <aside class="sidebar">
+        <div class="sidebar-header">
+          <span>Danh mục</span>
+        </div>
+
+        <div class="category-list" id="categoryList"></div>
+
+        <button class="sidebar-action" id="addMenuButton" type="button">
+          <span>+</span>
+          <strong>Thêm món</strong>
+        </button>
+      </aside>
+
+      <section class="menu-panel">
+        <div class="menu-headline">
+          <div>
+            <p class="section-kicker">Cinema Service Console</p>
+            <h1>Thực đơn hôm nay</h1>
+            <p>Chọn món ăn hoặc combo để thêm vào đơn của khách tại quầy vé.</p>
+          </div>
+
+          <div class="panel-actions">
+            <button class="filter-button" id="resetFilterButton" type="button">Tất cả</button>
+            <button class="filter-button" type="button">Lọc</button>
+          </div>
+        </div>
+
+        <p class="menu-status" id="menuStatus" aria-live="polite"></p>
+        <div class="menu-grid" id="menuGrid"></div>
+      </section>
+
+      <aside class="order-panel">
+        <div class="order-top">
+          <div>
+            <p class="section-kicker">Đơn hiện tại</p>
+            <h2>Đơn hàng</h2>
+          </div>
+          <span class="table-badge" id="counterBadge">Quầy 04</span>
+        </div>
+
+        <div class="order-tools">
+          <button class="secondary-action" type="button">Khách lẻ</button>
+          <button class="secondary-action" type="button">Ghi chú</button>
+        </div>
+
+        <div class="order-items" id="orderItems"></div>
+
+        <div class="order-summary">
+          <div class="summary-line">
+            <span>Tổng cộng</span>
+            <strong id="subtotalValue">0đ</strong>
+          </div>
+          <div class="summary-line">
+            <span>Giảm giá</span>
+            <strong class="discount">-0đ</strong>
+          </div>
+          <div class="summary-line">
+            <span>Thuế (8%)</span>
+            <strong id="taxValue">0đ</strong>
+          </div>
+        </div>
+
+        <div class="total-block">
+          <span>Thành tiền</span>
+          <strong id="totalValue">0đ</strong>
+        </div>
+
+        <div class="payment-actions">
+          <button class="payment-button is-light" type="button">Tạm tính</button>
+          <button class="payment-button is-green" type="button">Tiền mặt</button>
+        </div>
+
+        <button class="checkout-button" id="checkoutButton" type="button">Thanh toán</button>
+      </aside>
+    </main>
+  </div>
+
+  <div class="modal-backdrop" id="menuModal" hidden>
+    <div class="modal-card">
+      <div class="modal-head">
+        <div>
+          <p class="section-kicker">Quản trị thực đơn</p>
+          <h3>Thêm món mới</h3>
+        </div>
+        <button class="modal-close" id="closeMenuModal" type="button" aria-label="Đóng">×</button>
+      </div>
+
+      <form class="menu-form" id="menuForm">
+        <label class="form-field">
+          <span>Tên món</span>
+          <input id="menuName" name="name" type="text" placeholder="Ví dụ: Combo Mega Couple" required>
+        </label>
+
+        <label class="form-field">
+          <span>Danh mục</span>
+          <select id="menuCategory" name="category" required>
+            <option value="ve">Vé xem phim</option>
+            <option value="combo">Combo bắp nước</option>
+            <option value="nuoc">Đồ uống</option>
+            <option value="snack">Ăn vặt</option>
+          </select>
+        </label>
+
+        <label class="form-field">
+          <span>Mô tả</span>
+          <input id="menuDescription" name="description" type="text" placeholder="Mô tả ngắn cho nhân viên bán hàng" required>
+        </label>
+
+        <label class="form-field">
+          <span>Ghi chú quầy</span>
+          <input id="menuNote" name="note" type="text" placeholder="Ví dụ: Ưu đãi cuối tuần" required>
+        </label>
+
+        <label class="form-field">
+          <span>Giá bán</span>
+          <input id="menuPrice" name="price" type="number" min="1000" step="1000" placeholder="59000" required>
+        </label>
+
+        <div class="form-actions">
+          <button class="secondary-action" id="cancelMenuModal" type="button">Hủy</button>
+          <button class="payment-button is-green" type="submit">Lưu món mới</button>
+        </div>
+
+        <p class="form-feedback" id="menuFormFeedback" aria-live="polite"></p>
+      </form>
+    </div>
+  </div>
+
+  <script src="./js/api.js"></script>
+  <script src="./js/pos.js"></script>
+</body>
+</html>

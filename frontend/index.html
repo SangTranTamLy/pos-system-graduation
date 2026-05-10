@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cinox POS Login</title>
+  <link rel="stylesheet" href="./css/login.css">
+</head>
+<body>
+  <div class="screen-shell">
+    <div class="ambient ambient-left"></div>
+    <div class="ambient ambient-right"></div>
+
+    <main class="login-layout">
+      <section class="brand-panel">
+        <div class="brand-topbar">
+          <span class="brand-badge">Cinema Operations</span>
+          <span class="brand-status" id="systemClock">--:--:--</span>
+        </div>
+
+        <div class="brand-copy">
+          <p class="eyebrow">Ready For Ticketing</p>
+          <h1>Đăng nhập hệ thống bán vé trước khi mở quầy.</h1>
+          <p class="description">
+            Giao diện dành cho nhân viên vận hành rạp, tối ưu cho tốc độ đăng nhập,
+            xác nhận ca làm và chuyển nhanh sang màn hình bán vé.
+          </p>
+        </div>
+
+        <div class="feature-grid">
+          <article class="feature-card">
+            <span class="feature-label">Ca làm</span>
+            <strong>Morning Shift</strong>
+            <p>Kiểm tra nhân sự và xác thực quyền truy cập trước khi giao dịch.</p>
+          </article>
+          <article class="feature-card">
+            <span class="feature-label">Quầy vé</span>
+            <strong>Counter Online</strong>
+            <p>Chuẩn bị sẵn kết nối backend để mở POS ngay sau khi đăng nhập.</p>
+          </article>
+          <article class="feature-card">
+            <span class="feature-label">Bảo mật</span>
+            <strong>JWT Session</strong>
+            <p>Phiên làm việc có thời hạn theo ca, phù hợp luồng nội bộ của rạp.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="form-panel">
+        <div class="form-card">
+          <div class="form-header">
+            <p class="panel-kicker">Cinox Staff Access</p>
+            <h2>Đăng nhập</h2>
+            <p class="panel-copy">Nhập mã nhân viên và mật khẩu để bắt đầu ca làm việc.</p>
+          </div>
+
+          <form id="loginForm" class="login-form">
+            <label class="field">
+              <span>Mã nhân viên</span>
+              <input
+                id="employeeCode"
+                name="employee_code"
+                type="text"
+                inputmode="text"
+                autocomplete="username"
+                placeholder="Ví dụ: NV001"
+                required
+              >
+            </label>
+
+            <label class="field">
+              <span>Mật khẩu</span>
+              <div class="password-wrap">
+                <input
+                  id="password"
+                  name="password"
+                  type="password"
+                  autocomplete="current-password"
+                  placeholder="Nhập mật khẩu"
+                  required
+                >
+                <button type="button" class="ghost-button" id="togglePassword" aria-label="Hiện mật khẩu">
+                  Hiện
+                </button>
+              </div>
+            </label>
+
+            <div class="utility-row">
+              <label class="checkbox">
+                <input type="checkbox" id="rememberSession">
+                <span>Ghi nhớ phiên trên máy này</span>
+              </label>
+              <span class="health-pill" id="apiStatus">Chưa kiểm tra kết nối</span>
+            </div>
+
+            <button type="submit" class="submit-button" id="submitButton">
+              <span>Vào màn hình bán vé</span>
+            </button>
+
+            <p class="feedback" id="feedbackMessage" aria-live="polite"></p>
+          </form>
+
+          <div class="form-footer">
+            <div>
+              <span class="footer-label">API</span>
+              <strong id="apiEndpoint">http://localhost:3000/api/auth/login</strong>
+            </div>
+            <div>
+              <span class="footer-label">Phiên</span>
+              <strong>8 giờ / ca làm việc</strong>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="./js/api.js"></script>
+  <script src="./js/auth.js"></script>
+</body>
+</html>
