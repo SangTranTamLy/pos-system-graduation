@@ -89,6 +89,8 @@
   };
 
   const isAdminUser = (user) => (user?.role || "").toUpperCase() === "ADMIN";
+  const isKitchenUser = (user) => (user?.role || "").toUpperCase() === "KITCHEN";
+  const isCashierUser = (user) => (user?.role || "").toUpperCase() === "CASHIER";
 
   global.CinoxAPI = {
     API_BASE_URL,
@@ -101,6 +103,8 @@
     saveSession,
     clearSession,
     requireSession,
-    isAdminUser
+    isAdminUser,
+    isKitchenUser,
+    isCashierUser
   };
 })(window);

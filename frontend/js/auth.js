@@ -9,7 +9,15 @@ const systemClock = document.getElementById("systemClock");
 const apiEndpoint = document.getElementById("apiEndpoint");
 const rememberSessionCheckbox = document.getElementById("rememberSession");
 
-const getTargetRoute = (user) => (CinoxAPI.isAdminUser(user) ? "./admin.html" : "./pos.html");
+const getTargetRoute = (user) => {
+  if (CinoxAPI.isAdminUser(user)) {
+    return "./admin.html";
+  } else if (user.role === "KITCHEN") {
+    return "./kds.html";
+  } else {
+    return "./pos.html";
+  }
+};
 
 const setFeedback = (message, type = "") => {
   feedbackMessage.textContent = message;
@@ -21,7 +29,7 @@ const setFeedback = (message, type = "") => {
 
 const setSubmitting = (isSubmitting) => {
   submitButton.disabled = isSubmitting;
-  submitButton.querySelector("span").textContent = isSubmitting ? "Dang xac thuc..." : "Dang nhap";
+  submitButton.querySelector("span").textContent = isSubmitting ? "Đang xác thực..." : "Đăng nhập hệ thống";
 };
 
 const setApiStatus = (message, status = "idle") => {
@@ -38,13 +46,13 @@ const updateClock = () => {
 };
 
 const pingApi = async () => {
-  setApiStatus("Dang kiem tra ket noi...", "checking");
+  setApiStatus("Đang kiểm tra kết nối...", "checking");
 
   try {
     const result = await CinoxAPI.request("/api/health", { method: "GET" });
-    setApiStatus(result?.success ? "Quay đã san sang" : "Quay phan hoi", "ok");
+    setApiStatus(result?.success ? "Hệ thống đã sẵn sàng" : "Hệ thống phản hồi", "ok");
   } catch (error) {
-    setApiStatus("Quay chua ket noi", "error");
+    setApiStatus("Hệ thống chưa kết nối", "error");
   }
 };
 
@@ -64,7 +72,7 @@ loginForm.addEventListener("submit", async (event) => {
   const password = passwordInput.value;
 
   if (!employee_code || !password) {
-    setFeedback("Vui long nhap day du ma nhan vien va mat khau.", "error");
+    setFeedback("Vui lòng nhập đầy đủ mã nhân viên và mật khẩu.", "error");
     return;
   }
 
@@ -77,12 +85,12 @@ loginForm.addEventListener("submit", async (event) => {
     });
 
     CinoxAPI.saveSession(result.token, result.user, rememberSessionCheckbox.checked);
-    setFeedback(`Xin chao ${result.user.full_name}. Dang nhap thanh cong.`, "success");
+    setFeedback(`✅ Xin chào ${result.user.full_name}. Đăng nhập thành công!`, "success");
     window.setTimeout(() => {
       window.location.href = getTargetRoute(result.user);
     }, 400);
   } catch (error) {
-    setFeedback(error.message || "Khong the dang nhap vao he thong.", "error");
+    setFeedback(error.message || "❌ Không thể đăng nhập vào hệ thống.", "error");
   } finally {
     setSubmitting(false);
   }

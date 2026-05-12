@@ -18,9 +18,9 @@
       </div>
 
       <nav class="topnav">
-        <button class="nav-pill is-active" type="button">Bán vé</button>
-        <button class="nav-pill" type="button">Đơn hàng</button>
-        <button class="nav-pill" type="button">Báo cáo</button>
+        <button class="nav-pill is-active" type="button" data-tab="menu">Bán vé</button>
+        <button class="nav-pill" type="button" data-tab="orders">Đơn hàng</button>
+        <button class="nav-pill" type="button" data-tab="report">Báo cáo</button>
       </nav>
 
       <div class="topbar-tools">
@@ -45,80 +45,216 @@
     </header>
 
     <main class="workspace">
-      <aside class="sidebar">
-        <div class="sidebar-header">
-          <span>Danh mục</span>
-        </div>
-
-        <div class="category-list" id="categoryList"></div>
-
-        <button class="sidebar-action" id="addMenuButton" type="button">
-          <span>+</span>
-          <strong>Thêm món</strong>
-        </button>
-      </aside>
-
-      <section class="menu-panel">
-        <div class="menu-headline">
-          <div>
-            <p class="section-kicker">Cinema Service Console</p>
-            <h1>Thực đơn hôm nay</h1>
-            <p>Chọn món ăn hoặc combo để thêm vào đơn của khách tại quầy vé.</p>
+      <!-- Tab Bán vé (Menu) -->
+      <div class="tab-content is-active" id="menuTab">
+        <aside class="sidebar">
+          <div class="sidebar-header">
+            <span>Danh mục</span>
           </div>
 
-          <div class="panel-actions">
-            <button class="filter-button" id="resetFilterButton" type="button">Tất cả</button>
-            <button class="filter-button" type="button">Lọc</button>
+          <div class="category-list" id="categoryList"></div>
+
+          <button class="sidebar-action" id="addMenuButton" type="button">
+            <span>+</span>
+            <strong>Thêm món</strong>
+          </button>
+        </aside>
+
+        <section class="menu-panel">
+          <div class="menu-headline">
+            <div>
+              <p class="section-kicker">Cinema Service Console</p>
+              <h1>Thực đơn hôm nay</h1>
+              <p>Chọn món ăn hoặc combo để thêm vào đơn của khách tại quầy vé.</p>
+            </div>
+
+            <div class="panel-actions">
+              <button class="filter-button" id="resetFilterButton" type="button">Tất cả</button>
+              <button class="filter-button" type="button">Lọc</button>
+            </div>
+          </div>
+
+          <p class="menu-status" id="menuStatus" aria-live="polite"></p>
+          <div class="menu-grid" id="menuGrid"></div>
+        </section>
+
+        <aside class="order-panel">
+          <div class="order-top">
+            <div>
+              <p class="section-kicker">Đơn hiện tại</p>
+              <h2>Đơn hàng</h2>
+            </div>
+            <span class="table-badge" id="counterBadge">Quầy 04</span>
+          </div>
+
+          <div class="order-tools">
+            <button class="secondary-action" type="button">Khách lẻ</button>
+            <button class="secondary-action" type="button">Ghi chú</button>
+          </div>
+
+          <div class="order-items" id="orderItems"></div>
+
+          <div class="order-summary">
+            <div class="summary-line">
+              <span>Tổng cộng</span>
+              <strong id="subtotalValue">0đ</strong>
+            </div>
+            <div class="summary-line">
+              <span>Giảm giá</span>
+              <strong class="discount">-0đ</strong>
+            </div>
+            <div class="summary-line">
+              <span>Thuế (8%)</span>
+              <strong id="taxValue">0đ</strong>
+            </div>
+          </div>
+
+          <div class="total-block">
+            <span>Thành tiền</span>
+            <strong id="totalValue">0đ</strong>
+          </div>
+
+          <!-- Payment Input Section -->
+          <div class="payment-input-section">
+            <label class="payment-input-label">
+              <span>Khách đưa</span>
+              <input 
+                type="text" 
+                id="customerPaidInput" 
+                class="payment-input-inline" 
+                placeholder="Nhập số tiền..."
+                inputmode="numeric"
+              >
+            </label>
+            <div class="payment-change-display">
+              <span>Tiền thối</span>
+              <strong id="changeAmount">0đ</strong>
+            </div>
+          </div>
+
+          <div class="payment-actions">
+            <button class="payment-button is-light" id="clearOrderButton" type="button">Hủy Đơn</button>
+            <button class="payment-button is-green" type="button">Tiền mặt</button>
+          </div>
+
+          <button class="checkout-button" id="checkoutButton" type="button">Thanh toán</button>
+        </aside>
+      </div>
+
+      <!-- Tab Đơn hàng (History) -->
+      <div class="tab-content" id="ordersTab">
+        <div class="orders-history-panel">
+          <div class="menu-headline">
+            <div>
+              <p class="section-kicker">Lịch sử giao dịch</p>
+              <h1>Đơn hàng của tôi</h1>
+              <p>Danh sách các hóa đơn bạn đã tạo trong ca làm việc. Có thể hủy đơn hoặc in lại hóa đơn.</p>
+            </div>
+
+            <div class="panel-actions">
+              <button class="filter-button" id="refreshOrdersButton" type="button">🔄 Làm mới</button>
+              <select class="filter-button" id="orderStatusFilter">
+                <option value="">Tất cả trạng thái</option>
+                <option value="COMPLETED">Hoàn thành</option>
+                <option value="PENDING">Đang xử lý</option>
+                <option value="CANCELLED">Đã hủy</option>
+              </select>
+            </div>
+          </div>
+
+          <p class="menu-status" id="ordersStatus" aria-live="polite"></p>
+          
+          <div class="orders-table-container">
+            <table class="orders-table">
+              <thead>
+                <tr>
+                  <th>Mã đơn</th>
+                  <th>Thời gian</th>
+                  <th>Số món</th>
+                  <th>Tổng tiền</th>
+                  <th>Trạng thái</th>
+                  <th>Hành động</th>
+                </tr>
+              </thead>
+              <tbody id="ordersTableBody">
+                <tr>
+                  <td colspan="6" style="text-align: center; padding: 2rem;">
+                    Đang tải...
+                  </td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         </div>
+      </div>
 
-        <p class="menu-status" id="menuStatus" aria-live="polite"></p>
-        <div class="menu-grid" id="menuGrid"></div>
-      </section>
+      <!-- Tab Báo cáo (Shift Report) -->
+      <div class="tab-content" id="reportTab">
+        <div class="shift-report-panel">
+          <div class="menu-headline">
+            <div>
+              <p class="section-kicker">Quản lý ca làm việc</p>
+              <h1>Báo cáo chốt ca</h1>
+              <p>Mở ca, đóng ca và đối soát tiền mặt cá nhân của bạn.</p>
+            </div>
 
-      <aside class="order-panel">
-        <div class="order-top">
-          <div>
-            <p class="section-kicker">Đơn hiện tại</p>
-            <h2>Đơn hàng</h2>
+            <div class="panel-actions">
+              <button class="filter-button" id="refreshShiftButton" type="button">🔄 Làm mới</button>
+            </div>
           </div>
-          <span class="table-badge" id="counterBadge">Quầy 04</span>
-        </div>
 
-        <div class="order-tools">
-          <button class="secondary-action" type="button">Khách lẻ</button>
-          <button class="secondary-action" type="button">Ghi chú</button>
-        </div>
+          <p class="menu-status" id="shiftStatus" aria-live="polite"></p>
 
-        <div class="order-items" id="orderItems"></div>
+          <!-- Shift Status Card -->
+          <div class="shift-status-card" id="shiftStatusCard">
+            <div class="shift-card-header">
+              <h3>Trạng thái ca làm việc</h3>
+              <span class="shift-badge" id="shiftBadge">Chưa mở ca</span>
+            </div>
 
-        <div class="order-summary">
-          <div class="summary-line">
-            <span>Tổng cộng</span>
-            <strong id="subtotalValue">0đ</strong>
+            <div class="shift-card-body" id="shiftCardBody">
+              <div class="shift-empty">
+                <strong>Chưa mở ca làm việc</strong>
+                <p>Vui lòng mở ca để bắt đầu làm việc</p>
+              </div>
+            </div>
+
+            <div class="shift-card-actions" id="shiftCardActions">
+              <button class="shift-action-btn open" id="openShiftBtn" type="button">
+                🔓 Mở ca
+              </button>
+            </div>
           </div>
-          <div class="summary-line">
-            <span>Giảm giá</span>
-            <strong class="discount">-0đ</strong>
+
+          <!-- Shift History -->
+          <div class="shift-history-section">
+            <h3>Lịch sử các ca</h3>
+            <div class="orders-table-container">
+              <table class="orders-table">
+                <thead>
+                  <tr>
+                    <th>Ngày</th>
+                    <th>Giờ mở ca</th>
+                    <th>Giờ đóng ca</th>
+                    <th>Tiền đầu ca</th>
+                    <th>Doanh thu</th>
+                    <th>Tiền cuối ca</th>
+                    <th>Chênh lệch</th>
+                    <th>Trạng thái</th>
+                  </tr>
+                </thead>
+                <tbody id="shiftHistoryBody">
+                  <tr>
+                    <td colspan="8" style="text-align: center; padding: 2rem;">
+                      Đang tải...
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
-          <div class="summary-line">
-            <span>Thuế (8%)</span>
-            <strong id="taxValue">0đ</strong>
-          </div>
         </div>
-
-        <div class="total-block">
-          <span>Thành tiền</span>
-          <strong id="totalValue">0đ</strong>
-        </div>
-
-        <div class="payment-actions">
-          <button class="payment-button is-light" type="button">Tạm tính</button>
-          <button class="payment-button is-green" type="button">Tiền mặt</button>
-        </div>
-
-        <button class="checkout-button" id="checkoutButton" type="button">Thanh toán</button>
-      </aside>
+      </div>
     </main>
   </div>
 

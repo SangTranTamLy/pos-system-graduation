@@ -495,3 +495,320 @@ th {
     align-items: flex-start;
   }
 }
+
+
+/* ============================================
+   REPORTS TABLE ENHANCEMENTS
+   ============================================ */
+#reportsTableBody tr {
+  transition: background-color 0.2s;
+}
+
+#reportsTableBody tr:hover {
+  background-color: rgba(255, 172, 24, 0.05);
+}
+
+/* Zebra striping for better readability */
+#reportsTableBody tr:nth-child(odd) {
+  background-color: rgba(0, 0, 0, 0.02);
+}
+
+/* Column alignment - Updated after removing order code column */
+#reportsTableBody td:nth-child(1) {
+  color: #6b7280;
+  font-size: 0.9rem;
+}
+
+#reportsTableBody td:nth-child(2),
+#reportsTableBody td:nth-child(3) {
+  color: #374151;
+}
+
+#reportsTableBody td:nth-child(4) {
+  font-weight: 500;
+  color: #1f2937;
+}
+
+#reportsTableBody td:nth-child(5) {
+  text-align: center;
+  font-weight: 700;
+  color: #7c3aed;
+}
+
+#reportsTableBody td:nth-child(7) {
+  text-align: right;
+  font-weight: 700;
+  color: #059669;
+  font-size: 1rem;
+}
+
+/* Status badges improvements */
+.status-badge {
+  display: inline-block;
+  padding: 0.4rem 0.8rem;
+  border-radius: 12px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.status-badge.completed {
+  background: #d1fae5;
+  color: #065f46;
+  border: 1px solid #6ee7b7;
+}
+
+.status-badge.pending {
+  background: #fef3c7;
+  color: #92400e;
+  border: 1px solid #fbbf24;
+}
+
+.status-badge.cancelled {
+  background: #fee2e2;
+  color: #991b1b;
+  border: 1px solid #fca5a5;
+}
+
+/* Footer styling */
+#reportsTableFooter tr {
+  background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%) !important;
+  border-top: 3px solid #f59e0b;
+}
+
+#reportsTableFooter td {
+  padding: 16px 12px !important;
+  font-weight: 700;
+  font-size: 1.05rem;
+}
+
+#reportsTableFooter td:first-child {
+  text-align: left !important;
+  color: #1f2937;
+  font-size: 1.1rem;
+}
+
+#totalRevenueFooter {
+  color: #059669 !important;
+  font-size: 1.3rem !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  text-align: right !important;
+}
+
+/* Empty rows styling */
+#reportsTableBody tr td[colspan] {
+  text-align: center;
+  padding: 3rem 1rem;
+  color: #9ca3af;
+  font-style: italic;
+}
+
+/* Responsive table */
+@media (max-width: 1200px) {
+  .table-wrap {
+    overflow-x: auto;
+  }
+  
+  table {
+    min-width: 800px;
+  }
+}
+
+
+/* ============================================
+   REPORT TABS
+   ============================================ */
+.report-tabs {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+  border-bottom: 2px solid var(--border);
+}
+
+.report-tab-btn {
+  padding: 0.9rem 1.5rem;
+  border: none;
+  background: transparent;
+  color: var(--text-muted);
+  font-weight: 700;
+  cursor: pointer;
+  border-bottom: 3px solid transparent;
+  transition: all 0.2s ease;
+  position: relative;
+  bottom: -2px;
+}
+
+.report-tab-btn:hover {
+  color: var(--text-main);
+  background: rgba(183, 120, 23, 0.05);
+}
+
+.report-tab-btn.is-active {
+  color: var(--bg-accent);
+  border-bottom-color: var(--bg-accent);
+  background: rgba(183, 120, 23, 0.08);
+}
+
+.report-tab-content {
+  display: none;
+}
+
+.report-tab-content.is-active {
+  display: block;
+}
+
+/* ============================================
+   MODAL OVERLAY & CONTAINER
+   ============================================ */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  z-index: 9999;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  animation: fadeIn 0.2s ease;
+}
+
+.modal-overlay.is-open {
+  display: flex;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.modal-container {
+  background: var(--bg-surface);
+  border-radius: 24px;
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.3);
+  max-width: 900px;
+  width: 100%;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  animation: slideUp 0.3s ease;
+}
+
+.modal-container.large {
+  max-width: 1200px;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(30px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 1.5rem 2rem;
+  border-bottom: 2px solid var(--border);
+}
+
+.modal-header h3 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  color: var(--text-main);
+}
+
+.modal-subtitle {
+  margin: 0.4rem 0 0;
+  color: var(--text-muted);
+  font-size: 0.95rem;
+}
+
+.modal-close {
+  width: 2.5rem;
+  height: 2.5rem;
+  border: none;
+  background: rgba(208, 74, 47, 0.1);
+  color: var(--danger);
+  border-radius: 12px;
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: grid;
+  place-items: center;
+}
+
+.modal-close:hover {
+  background: var(--danger);
+  color: white;
+  transform: scale(1.05);
+}
+
+.modal-body {
+  padding: 1.5rem 2rem 2rem;
+  overflow-y: auto;
+}
+
+/* ============================================
+   SHIFT DETAIL TABLE ENHANCEMENTS
+   ============================================ */
+#shiftDetailTableBody tr {
+  transition: background-color 0.2s;
+}
+
+#shiftDetailTableBody tr:hover {
+  background-color: rgba(183, 120, 23, 0.08);
+}
+
+#shiftDetailTableBody tr:nth-child(odd) {
+  background-color: rgba(0, 0, 0, 0.02);
+}
+
+/* View Detail Button in Shifts Table */
+.btn-view-detail {
+  padding: 0.5rem 0.9rem;
+  border: none;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #3b82f6, #2563eb);
+  color: white;
+  font-weight: 700;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.btn-view-detail:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+}
+
+.btn-view-detail:active {
+  transform: translateY(0);
+}
+
+/* Responsive modal */
+@media (max-width: 860px) {
+  .modal-container {
+    max-width: 95vw;
+    max-height: 95vh;
+  }
+  
+  .modal-header,
+  .modal-body {
+    padding: 1rem 1.2rem;
+  }
+}

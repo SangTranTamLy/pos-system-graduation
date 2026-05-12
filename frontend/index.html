@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cinox POS Login</title>
+  <title>Cinox POS - Đăng nhập</title>
   <link rel="stylesheet" href="./css/login.css">
 </head>
 <body>
@@ -14,34 +14,34 @@
     <main class="login-layout">
       <section class="brand-panel">
         <div class="brand-topbar">
-          <span class="brand-badge">Cinema Operations</span>
+          <span class="brand-badge">Restaurant Operations</span>
           <span class="brand-status" id="systemClock">--:--:--</span>
         </div>
 
         <div class="brand-copy">
-          <p class="eyebrow">Ready For Ticketing</p>
-          <h1>Đăng nhập hệ thống bán vé trước khi mở quầy.</h1>
+          <p class="eyebrow">Ready For Service</p>
+          <h1>Đăng nhập hệ thống POS trước khi bắt đầu ca làm việc.</h1>
           <p class="description">
-            Giao diện dành cho nhân viên vận hành rạp, tối ưu cho tốc độ đăng nhập,
-            xác nhận ca làm và chuyển nhanh sang màn hình bán vé.
+            Giao diện dành cho nhân viên nhà hàng, tối ưu cho tốc độ đăng nhập,
+            xác nhận ca làm và chuyển nhanh sang màn hình bán hàng hoặc bếp.
           </p>
         </div>
 
         <div class="feature-grid">
           <article class="feature-card">
             <span class="feature-label">Ca làm</span>
-            <strong>Morning Shift</strong>
+            <strong>Shift Management</strong>
             <p>Kiểm tra nhân sự và xác thực quyền truy cập trước khi giao dịch.</p>
           </article>
           <article class="feature-card">
-            <span class="feature-label">Quầy vé</span>
-            <strong>Counter Online</strong>
+            <span class="feature-label">Quầy bán hàng</span>
+            <strong>POS Online</strong>
             <p>Chuẩn bị sẵn kết nối backend để mở POS ngay sau khi đăng nhập.</p>
           </article>
           <article class="feature-card">
             <span class="feature-label">Bảo mật</span>
             <strong>JWT Session</strong>
-            <p>Phiên làm việc có thời hạn theo ca, phù hợp luồng nội bộ của rạp.</p>
+            <p>Phiên làm việc có thời hạn theo ca, phù hợp luồng nội bộ nhà hàng.</p>
           </article>
         </div>
       </section>
@@ -63,7 +63,7 @@
                 type="text"
                 inputmode="text"
                 autocomplete="username"
-                placeholder="Ví dụ: NV001"
+                placeholder="Ví dụ: NV001, KITCHEN01, ADMIN01"
                 required
               >
             </label>
@@ -94,7 +94,7 @@
             </div>
 
             <button type="submit" class="submit-button" id="submitButton">
-              <span>Vào màn hình bán vé</span>
+              <span>Đăng nhập hệ thống</span>
             </button>
 
             <p class="feedback" id="feedbackMessage" aria-live="polite"></p>

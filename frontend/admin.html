@@ -20,7 +20,7 @@
       <nav class="sidebar-nav">
         <button class="sidebar-link is-active" type="button" data-section-target="dashboard">Dashboard</button>
         <button class="sidebar-link" type="button" data-section-target="users">Nhân sự</button>
-        <button class="sidebar-link" type="button" data-section-target="reports">Báo cáo</button>
+        <button class="sidebar-link" type="button" data-section-target="reports">Báo cáo & Đối soát</button>
         <button class="sidebar-link" type="button" data-section-target="menu">Thực đơn</button>
       </nav>
 
@@ -65,10 +65,6 @@
             <span>Đơn hoàn thành</span>
             <strong id="completedOrdersValue">0</strong>
           </article>
-          <article class="stat-card">
-            <span>Đơn bị hủy</span>
-            <strong id="cancelledOrdersValue">0</strong>
-          </article>
         </div>
 
         <div class="analytics-grid">
@@ -83,13 +79,12 @@
           <article class="panel-card">
             <div class="card-head">
               <h3>Phân bổ trạng thái đơn</h3>
-              <span>Tỷ lệ hoàn thành / hủy</span>
+              <span>Tỷ lệ hoàn thành</span>
             </div>
             <div class="donut-wrap">
               <div class="donut-chart" id="statusDonut"></div>
               <div class="donut-legend">
                 <div><span class="legend-dot success"></span>Hoàn thành</div>
-                <div><span class="legend-dot danger"></span>Bị hủy</div>
               </div>
             </div>
           </article>
@@ -119,8 +114,8 @@
               <label>
                 <span>Vai trò</span>
                 <select id="newUserRole">
-                  <option value="Cashier">Cashier</option>
-                  <option value="Supervisor">Supervisor</option>
+                  <option value="CASHIER">Cashier (Thu ngân)</option>
+                  <option value="KITCHEN">Kitchen (Bếp)</option>
                 </select>
               </label>
               <button class="primary-button" type="submit">Tạo tài khoản</button>
@@ -140,7 +135,7 @@
                     <th>Mã NV</th>
                     <th>Họ tên</th>
                     <th>Vai trò</th>
-                    <th>Mật khẩu tạm</th>
+                    <th>Trạng thái</th>
                     <th></th>
                   </tr>
                 </thead>
@@ -154,59 +149,202 @@
       <section class="panel-section" id="reportsSection">
         <div class="section-head">
           <div>
-            <p class="eyebrow">Revenue Reports</p>
-            <h2>Báo cáo doanh thu chi tiết</h2>
+            <p class="eyebrow">Reports & Reconciliation</p>
+            <h2>Báo cáo & Đối soát</h2>
           </div>
         </div>
 
-        <div class="filter-row">
-          <label>
-            <span>Chọn ngày</span>
-            <input id="reportDateFilter" type="date">
-          </label>
-          <label>
-            <span>Mã nhân viên</span>
-            <select id="reportEmployeeFilter"></select>
-          </label>
-          <button class="outline-button" id="resetReportFilters" type="button">Xóa bộ lọc</button>
+        <!-- Tab Navigation -->
+        <div class="report-tabs">
+          <button class="report-tab-btn is-active" data-report-tab="shifts">Báo cáo ca làm việc</button>
+          <button class="report-tab-btn" data-report-tab="details">Báo cáo doanh thu chi tiết</button>
         </div>
 
-        <div class="stats-grid compact">
-          <article class="stat-card">
-            <span>Doanh thu lọc</span>
-            <strong id="filteredRevenueValue">0đ</strong>
-          </article>
-          <article class="stat-card">
-            <span>Số đơn khớp</span>
-            <strong id="filteredOrdersValue">0</strong>
-          </article>
-          <article class="stat-card">
-            <span>Nhân viên đối soát</span>
-            <strong id="filteredEmployeeValue">Tất cả</strong>
+        <!-- SHIFTS TAB (Default) -->
+        <div class="report-tab-content is-active" id="shiftsTabContent">
+          <div class="filter-row">
+            <label>
+              <span>Chọn ngày</span>
+              <input id="shiftDateFilter" type="date">
+            </label>
+            <label>
+              <span>Mã nhân viên</span>
+              <select id="shiftEmployeeFilter">
+                <option value="">Tất cả nhân viên</option>
+              </select>
+            </label>
+            <label>
+              <span>Trạng thái</span>
+              <select id="shiftStatusFilter">
+                <option value="">Tất cả</option>
+                <option value="OPEN">Đang mở</option>
+                <option value="CLOSED">Đã đóng</option>
+              </select>
+            </label>
+            <button class="outline-button" id="resetShiftFilters" type="button">Xóa bộ lọc</button>
+          </div>
+
+          <div class="stats-grid compact">
+            <article class="stat-card">
+              <span>Tổng ca</span>
+              <strong id="totalShiftsValue">0</strong>
+            </article>
+            <article class="stat-card">
+              <span>Tổng doanh thu</span>
+              <strong id="totalShiftRevenueValue">0đ</strong>
+            </article>
+            <article class="stat-card">
+              <span>Chênh lệch</span>
+              <strong id="totalDifferenceValue">0đ</strong>
+            </article>
+          </div>
+
+          <article class="panel-card">
+            <div class="card-head">
+              <h3>Danh sách báo cáo ca</h3>
+              <span>Thông tin đối soát tiền mặt từ nhân viên</span>
+            </div>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Ngày</th>
+                    <th>Mã NV</th>
+                    <th>Nhân viên</th>
+                    <th>Giờ mở</th>
+                    <th>Giờ đóng</th>
+                    <th>Tiền đầu ca</th>
+                    <th>Doanh thu</th>
+                    <th>Tiền mong đợi</th>
+                    <th>Tiền thực tế</th>
+                    <th>Chênh lệch</th>
+                    <th>Trạng thái</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody id="shiftsTableBody"></tbody>
+              </table>
+            </div>
           </article>
         </div>
 
-        <article class="panel-card">
-          <div class="card-head">
-            <h3>Bảng báo cáo cuối ngày</h3>
-            <span>Lọc chéo theo ngày và employee_code</span>
+        <!-- DETAILS TAB -->
+        <div class="report-tab-content" id="detailsTabContent">
+          <div class="filter-row">
+            <label>
+              <span>Kỳ báo cáo</span>
+              <select id="reportPeriodFilter">
+                <option value="day">Theo ngày</option>
+                <option value="month">Theo tháng</option>
+                <option value="year">Theo năm</option>
+              </select>
+            </label>
+            <label>
+              <span>Chọn ngày</span>
+              <input id="reportDateFilter" type="date">
+            </label>
+            <label>
+              <span>Mã nhân viên</span>
+              <select id="reportEmployeeFilter"></select>
+            </label>
+            <button class="outline-button" id="resetReportFilters" type="button">Xóa bộ lọc</button>
           </div>
-          <div class="table-wrap">
-            <table>
-              <thead>
-                <tr>
-                  <th>Mã đơn</th>
-                  <th>Ngày</th>
-                  <th>Mã NV</th>
-                  <th>Nhân viên</th>
-                  <th>Trạng thái</th>
-                  <th>Doanh thu</th>
-                </tr>
-              </thead>
-              <tbody id="reportsTableBody"></tbody>
-            </table>
+
+          <div class="stats-grid compact">
+            <article class="stat-card">
+              <span>Tổng doanh thu</span>
+              <strong id="filteredRevenueValue">0đ</strong>
+            </article>
+            <article class="stat-card">
+              <span>Đơn hoàn thành</span>
+              <strong id="filteredOrdersValue">0</strong>
+            </article>
+            <article class="stat-card">
+              <span>Đơn hủy</span>
+              <strong id="filteredCancelledValue">0</strong>
+            </article>
           </div>
-        </article>
+
+          <article class="panel-card">
+            <div class="card-head">
+              <h3>Bảng báo cáo chi tiết</h3>
+              <span>Danh sách món ăn, số lượng và doanh thu theo kỳ</span>
+            </div>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Ngày</th>
+                    <th>Mã NV</th>
+                    <th>Nhân viên</th>
+                    <th>Tên món</th>
+                    <th>SL</th>
+                    <th>Trạng thái</th>
+                    <th>Doanh thu</th>
+                  </tr>
+                </thead>
+                <tbody id="reportsTableBody"></tbody>
+                <tfoot id="reportsTableFooter" style="display: none;">
+                  <tr style="background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%); border-top: 3px solid #f59e0b;">
+                    <td colspan="6" style="text-align: left; padding: 16px 12px; font-weight: 700; font-size: 1.1rem; color: #1f2937;">
+                      TỔNG DOANH THU:
+                    </td>
+                    <td id="totalRevenueFooter" style="text-align: right; padding: 16px 12px; color: #059669; font-size: 1.3rem; font-weight: 700; text-shadow: 0 1px 2px rgba(0,0,0,0.1);">0đ</td>
+                  </tr>
+                </tfoot>
+              </table>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- SHIFT DETAIL MODAL -->
+      <div class="modal-overlay" id="shiftDetailModal">
+        <div class="modal-container large">
+          <div class="modal-header">
+            <div>
+              <h3>Chi tiết món ăn trong ca</h3>
+              <p class="modal-subtitle" id="shiftDetailSubtitle"></p>
+            </div>
+            <button class="modal-close" id="closeShiftDetailModal" type="button">✕</button>
+          </div>
+          <div class="modal-body">
+            <div class="stats-grid compact">
+              <article class="stat-card">
+                <span>Tổng đơn</span>
+                <strong id="modalTotalOrders">0</strong>
+              </article>
+              <article class="stat-card">
+                <span>Doanh thu</span>
+                <strong id="modalTotalRevenue">0đ</strong>
+              </article>
+              <article class="stat-card">
+                <span>Chênh lệch</span>
+                <strong id="modalDifference">0đ</strong>
+              </article>
+            </div>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Thời gian</th>
+                    <th>Mã đơn</th>
+                    <th>Tên món</th>
+                    <th>SL</th>
+                    <th>Đơn giá</th>
+                    <th>Thành tiền</th>
+                    <th>Trạng thái</th>
+                  </tr>
+                </thead>
+                <tbody id="shiftDetailTableBody"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <section class="panel-section" id="shiftsSection" style="display: none;">
+        <!-- This section is now merged into reportsSection -->
       </section>
 
       <section class="panel-section" id="menuSection">

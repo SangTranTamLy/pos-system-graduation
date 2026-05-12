@@ -148,8 +148,75 @@ const resetEmployeePassword = async (req, res) => {
     }
 };
 
+const deleteEmployee = async (req, res) => {
+    try {
+        const { employeeCode } = req.params;
+
+        console.log('=== DELETE EMPLOYEE REQUEST ===');
+        console.log('Employee Code:', employeeCode);
+
+        // Không cho phép xóa tài khoản ADMIN
+        if (employeeCode.startsWith('ADMIN')) {
+            console.log('❌ Attempt to delete ADMIN account blocked');
+            return res.status(403).json({
+                success: false,
+                message: 'Không thể xóa tài khoản ADMIN'
+            });
+        }
+
+        // Kiểm tra nhân viên tồn tại
+        const { data: existingEmployee, error: checkError } = await supabase
+            .from('employees')
+            .select('id, employee_code, full_name')
+            .eq('employee_code', employeeCode)
+            .single();
+
+        console.log('Check Error:', checkError);
+        console.log('Employee Found:', existingEmployee ? 'YES' : 'NO');
+
+        if (checkError || !existingEmployee) {
+            console.log('❌ Employee not found');
+            return res.status(404).json({
+                success: false,
+                message: 'Không tìm thấy nhân viên'
+            });
+        }
+
+        console.log('Deleting employee:', existingEmployee.full_name);
+
+        // Xóa nhân viên
+        const { error: deleteError } = await supabase
+            .from('employees')
+            .delete()
+            .eq('employee_code', employeeCode);
+
+        if (deleteError) {
+            console.log('❌ Delete Error:', deleteError);
+            throw deleteError;
+        }
+
+        console.log('✅ Employee deleted successfully');
+
+        return res.status(200).json({
+            success: true,
+            message: `Đã xóa nhân viên ${employeeCode}`,
+            data: {
+                employee_code: existingEmployee.employee_code,
+                full_name: existingEmployee.full_name
+            }
+        });
+    } catch (err) {
+        console.error('Lỗi xóa nhân viên:', err);
+        return res.status(500).json({
+            success: false,
+            message: 'Không thể xóa nhân viên'
+        });
+    }
+};
+
 module.exports = {
     listEmployees,
     createEmployee,
-    resetEmployeePassword
+    resetEmployeePassword,
+    deleteEmployee
 };

@@ -3,39 +3,83 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cinox KDS</title>
+  <title>Cinox KDS - Màn Hình Bếp</title>
   <link rel="stylesheet" href="./css/kds.css">
 </head>
 <body>
   <div class="kds-shell">
+    <!-- Header -->
     <header class="kds-topbar">
       <div>
         <p class="eyebrow">Kitchen Display System</p>
-        <h1>Man hinh bep</h1>
+        <h1>Màn Hình Bếp</h1>
       </div>
 
       <div class="topbar-meta">
+        <div class="user-info">
+          <span class="user-avatar" id="userAvatar">K</span>
+          <div class="user-details">
+            <strong id="userName">Nhân viên bếp</strong>
+            <span id="userRole">KITCHEN</span>
+          </div>
+        </div>
         <div class="status-chip" id="kdsClock">--:--:--</div>
-        <button class="nav-button" id="backToAdminButton" type="button">Ve Dashboard</button>
+        <button class="nav-button" id="viewStatsButton" type="button">📊 Xem Thống Kê</button>
+        <button class="nav-button" id="backToAdminButton" type="button">🏠 Về Dashboard</button>
+        <button class="nav-button logout-button" id="logoutButton" type="button">🚪 Đăng Xuất</button>
       </div>
     </header>
 
+    <!-- Summary Cards -->
     <section class="kds-summary">
-      <article class="summary-card">
-        <span>Dang cho lam</span>
+      <article class="summary-card pending">
+        <span>Đang Chờ Làm</span>
         <strong id="pendingOrdersCount">0</strong>
       </article>
-      <article class="summary-card">
-        <span>Dang thuc hien</span>
+      <article class="summary-card preparing">
+        <span>Đang Thực Hiện</span>
         <strong id="preparingOrdersCount">0</strong>
       </article>
-      <article class="summary-card">
-        <span>Sap xong</span>
-        <strong id="readyOrdersCount">0</strong>
+      <article class="summary-card completed">
+        <span>Đã Hoàn Thành Hôm Nay</span>
+        <strong id="completedTodayCount">0</strong>
       </article>
     </section>
 
-    <main class="kds-board" id="kdsBoard"></main>
+    <!-- Main Board -->
+    <main class="kds-board" id="kdsBoard">
+      <div class="empty-state">
+        <div class="empty-icon">🍳</div>
+        <h3>Chưa Có Đơn Hàng</h3>
+        <p>Hệ thống đang chờ đơn hàng từ quầy POS...</p>
+      </div>
+    </main>
+  </div>
+
+  <!-- Modal Chi Tiết Món -->
+  <div class="modal" id="itemDetailModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Chi Tiết Món Ăn</h2>
+        <button class="modal-close" id="closeModalButton">&times;</button>
+      </div>
+      <div class="modal-body" id="modalBody">
+        <!-- Nội dung sẽ được render bằng JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Thống Kê -->
+  <div class="modal" id="statsModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>📊 Thống Kê Hôm Nay</h2>
+        <button class="modal-close" id="closeStatsButton">&times;</button>
+      </div>
+      <div class="modal-body" id="statsBody">
+        <div class="stats-loading">Đang tải...</div>
+      </div>
+    </div>
   </div>
 
   <script src="./js/api.js"></script>

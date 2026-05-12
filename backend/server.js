@@ -13,12 +13,19 @@ const employeeRoutes = require('./routes/employeeRoutes');
 const reportRoutes = require('./routes/reportRoutes');
 const kdsRoutes = require('./routes/kdsRoutes');
 const productRoutes = require('./routes/productRoutes');
+const orderRoutes = require('./routes/orderRoutes');
+const shiftRoutes = require('./routes/shiftRoutes');
+
 app.use('/api/auth', authRoutes);
 app.use('/api/categories', categoryRoutes);
 app.use('/api/employees', employeeRoutes);
 app.use('/api/reports', reportRoutes);
 app.use('/api/kds', kdsRoutes);
 app.use('/api/products', productRoutes);
+app.use('/api/orders', orderRoutes);
+app.use('/api/shifts', shiftRoutes);
+app.use('/api/shifts', shiftRoutes);
+console.log('✅ Shift routes loaded');
 
 app.get('/api/health', (req, res) => {
     res.status(200).json({ 
