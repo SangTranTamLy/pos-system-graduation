@@ -4,7 +4,15 @@ const cors = require('cors');
 
 const app = express();
 
-app.use(cors());
+app.use(cors({
+  origin: [
+    'http://localhost:5500',
+    'http://localhost:5501',
+    'https://sangtrantamly.github.io',
+    'https://pos-system-graduation.vercel.app'
+  ],
+  credentials: true
+}));
 app.use(express.json()); 
 
 const authRoutes = require('./routes/authRoutes');

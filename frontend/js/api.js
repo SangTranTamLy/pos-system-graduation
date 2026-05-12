@@ -1,7 +1,11 @@
 (function attachCinoxApi(global) {
   const TOKEN_KEY = "cinox_token";
   const USER_KEY = "cinox_user";
-  const API_BASE_URL = "http://localhost:3000";
+  
+  // Tự động detect môi trường
+  const API_BASE_URL = window.location.hostname === 'localhost' 
+    ? 'http://localhost:3000' 
+    : 'https://pos-system-graduation.vercel.app'; // ← Thay bằng URL Vercel của bạn
 
   const parseJson = (value) => {
     try {
