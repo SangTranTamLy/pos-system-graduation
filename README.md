@@ -1,47 +1,102 @@
-# 🍿 Cinox POS System - Hệ thống quản lý rạp chiếu phim
+# 🚀 Cinox OmniPOS - Nền tảng bán hàng đa mô hình (F&B & Giải trí)
 
-Hệ thống Point of Sale (POS) toàn diện cho rạp chiếu phim với quản lý ca làm việc, báo cáo chi tiết và Kitchen Display System (KDS).
+Giải pháp Point of Sale (Web-based POS) toàn diện và linh hoạt, được thiết kế để mở rộng cho đa dạng mô hình kinh doanh từ rạp chiếu phim (Cinema) đến chuỗi nhà hàng (Fast-food, Buffet). Hệ thống tích hợp quản lý ca làm việc bảo mật cao (Blind Close), báo cáo đối soát dòng tiền và Kitchen Display System (KDS).
 
 ## ✨ Tính năng chính
 
-### 🎯 POS (Point of Sale)
-- **Bán vé**: Chọn món, tính tiền, thanh toán với tiền thối tự động
-- **Quản lý đơn hàng**: Xem lịch sử, hủy đơn, in lại hóa đơn
-- **Quản lý ca làm việc**: Mở ca, đóng ca, đối soát tiền mặt
-- **Báo cáo ca**: Nhân viên xem trạng thái ca, Admin xem chi tiết
+### 🎯 POS (Point of Sale) - Đa mô hình
+- **Bán hàng linh hoạt**: Hỗ trợ đa dạng mô hình từ rạp chiếu phim, nhà hàng đến chuỗi F&B
+- **Tính tiền thông minh**: Tự động tính tiền thối, hỗ trợ nhiều phương thức thanh toán
+- **Quản lý đơn hàng**: Xem lịch sử, hủy đơn, in lại hóa đơn realtime
+- **Quản lý ca làm việc (Blind Close)**: 
+  - Mở ca với tiền đầu ca (opening float)
+  - Đóng ca với đối soát tiền mặt bảo mật
+  - Nhân viên không thấy doanh thu trong ca (blind close)
+  - Tự động đăng xuất sau khi đóng ca
+- **Báo cáo ca**: Nhân viên xem trạng thái ca, Admin xem chi tiết đầy đủ
 
-### 👨‍💼 Admin Panel
-- **Dashboard**: Tổng quan doanh thu, đơn hàng, biểu đồ theo ca
-- **Quản lý nhân sự**: Tạo tài khoản, reset mật khẩu, phân quyền
-- **Báo cáo & Đối soát**: 
-  - Tab "Báo cáo ca làm việc" với drill-down chi tiết món ăn
-  - Tab "Báo cáo doanh thu chi tiết" theo ngày/tháng/năm
-  - Filter theo nhân viên, ngày, trạng thái
-  - Phát hiện chênh lệch tiền mặt (dư/thiếu)
-- **Quản lý thực đơn**: Thêm/sửa/xóa món, ẩn/hiện món
+### 👨‍💼 Admin Panel - Quản lý tập trung
+- **Dashboard**: Tổng quan doanh thu, đơn hàng, biểu đồ phân tích theo ca
+- **Quản lý nhân sự**: 
+  - Tạo tài khoản với phân quyền (Admin, Cashier, Kitchen)
+  - Reset mật khẩu, quản lý trạng thái hoạt động
+  - Theo dõi hiệu suất nhân viên
+- **Báo cáo & Đối soát dòng tiền**: 
+  - **Tab "Báo cáo ca làm việc"**: 
+    - Xem tất cả ca với chênh lệch tiền mặt
+    - Drill-down chi tiết món ăn trong từng ca
+    - Phát hiện dư/thiếu tiền với màu sắc trực quan
+  - **Tab "Báo cáo doanh thu chi tiết"**: 
+    - Báo cáo theo ngày/tháng/năm
+    - Filter theo nhân viên, trạng thái
+    - Export dữ liệu để phân tích
+- **Quản lý thực đơn**: 
+  - Thêm/sửa/xóa món ăn
+  - Quản lý danh mục
+  - Ẩn/hiện món theo tình trạng nguyên liệu
 
-### 🍳 KDS (Kitchen Display System)
+### 🍳 KDS (Kitchen Display System) - Màn hình bếp
 - Hiển thị đơn hàng realtime cho bếp
 - Cập nhật trạng thái món (Pending → Preparing → Ready)
 - Thông báo âm thanh khi có đơn mới
 - Tự động refresh mỗi 5 giây
+- Hỗ trợ nhiều màn hình bếp (scalable)
+
+### 🔐 Bảo mật & Phân quyền
+- **Blind Close**: Nhân viên không thấy doanh thu trong ca
+- **Role-based Access Control**: Admin, Cashier, Kitchen
+- **JWT Authentication**: Bảo mật session
+- **Password Encryption**: bcrypt với 10 rounds
+- **Audit Trail**: Theo dõi tất cả thao tác quan trọng
 
 ## 🛠️ Tech Stack
 
 ### Backend
-- **Node.js** + **Express.js**
-- **Supabase** (PostgreSQL)
-- **bcrypt** (mã hóa mật khẩu)
-- **JWT** (authentication)
+- **Node.js** + **Express.js** - RESTful API
+- **Supabase** (PostgreSQL) - Database & Realtime
+- **bcrypt** - Mã hóa mật khẩu (10 rounds)
+- **JWT** - Authentication & Authorization
 
 ### Frontend
-- **Vanilla JavaScript** (ES6+)
-- **HTML5** + **CSS3**
-- **Fetch API** (HTTP requests)
+- **Vanilla JavaScript** (ES6+) - No framework dependencies
+- **HTML5** + **CSS3** - Responsive design
+- **Fetch API** - HTTP requests
+- **LocalStorage** - Session management
 
 ### Database
 - **PostgreSQL** (via Supabase)
-- Tables: employees, categories, products, orders, order_items, shifts
+- **Tables**: employees, categories, products, orders, order_items, shifts
+- **Foreign Keys**: Đảm bảo tính toàn vẹn dữ liệu
+- **Indexes**: Tối ưu performance cho queries phức tạp
+
+### Architecture
+- **RESTful API** - Chuẩn REST cho tất cả endpoints
+- **MVC Pattern** - Tách biệt logic và presentation
+- **Middleware Chain** - Authentication, Authorization, Error handling
+- **Stateless** - Scalable horizontally
+
+## 🎯 Khả năng mở rộng (Scalability)
+
+### Đa mô hình kinh doanh
+- ✅ **Rạp chiếu phim**: Bán vé, combo, đồ ăn
+- ✅ **Nhà hàng Fast-food**: Order nhanh, KDS
+- ✅ **Buffet**: Quản lý bàn, theo dõi món
+- ✅ **Chuỗi F&B**: Multi-location support (sẵn sàng)
+
+### Tính năng có thể mở rộng
+- 🔄 **Multi-location**: Quản lý nhiều chi nhánh
+- 🔄 **Inventory Management**: Quản lý kho, nguyên liệu
+- 🔄 **Customer Loyalty**: Tích điểm, khách hàng thân thiết
+- 🔄 **Online Ordering**: Tích hợp đặt hàng online
+- 🔄 **Payment Gateway**: Tích hợp thanh toán điện tử
+- 🔄 **Analytics Dashboard**: Phân tích dữ liệu nâng cao
+- 🔄 **Mobile App**: iOS & Android native apps
+
+### Technical Scalability
+- **Horizontal Scaling**: Thêm server dễ dàng
+- **Database Replication**: Supabase hỗ trợ sẵn
+- **CDN Ready**: Static assets có thể deploy lên CDN
+- **API Versioning**: Sẵn sàng cho v2, v3...
 
 ## 📦 Cài đặt
 
@@ -289,10 +344,38 @@ This project is licensed under the MIT License.
 **Sang Tran Tam Ly**
 - GitHub: [@SangTranTamLy](https://github.com/SangTranTamLy)
 
+## 🎬 Use Cases
+
+### Rạp chiếu phim (Cinema)
+- Bán vé xem phim + combo bắp nước
+- Quản lý ca làm việc của nhân viên bán vé
+- Đối soát doanh thu theo suất chiếu
+- KDS cho quầy bắp nước
+
+### Nhà hàng Fast-food
+- Order nhanh tại quầy
+- KDS hiển thị đơn cho bếp
+- Quản lý ca làm việc nhiều nhân viên
+- Báo cáo doanh thu theo ca/ngày/tháng
+
+### Buffet
+- Quản lý bàn và order
+- Theo dõi món ăn realtime
+- Đối soát tiền mặt cuối ca
+- Phân tích món ăn phổ biến
+
+### Chuỗi F&B
+- Quản lý nhiều chi nhánh (sẵn sàng mở rộng)
+- Báo cáo tập trung
+- So sánh hiệu suất giữa các chi nhánh
+- Quản lý nhân viên đa địa điểm
+
 ## 🙏 Acknowledgments
 
-- Supabase for the amazing backend platform
-- All contributors and testers
+- **Supabase** - Amazing backend platform with PostgreSQL & Realtime
+- **Express.js** - Fast, unopinionated web framework
+- **bcrypt** - Secure password hashing
+- **All contributors and testers** - Thank you for your feedback!
 
 ---
 
