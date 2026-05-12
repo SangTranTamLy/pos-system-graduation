@@ -3,7 +3,7 @@
   const USER_KEY = "cinox_user";
   
   // Tự động detect môi trường
-  const API_BASE_URL = window.location.hostname === 'localhost' 
+  const API_BASE_URL = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
     ? 'http://localhost:3000' 
     : 'https://pos-system-graduation.vercel.app'; // ← Thay bằng URL Vercel của bạn
 
